@@ -1,0 +1,35 @@
+LOAD CHARACTERSET AL32UTF8 BYTEORDERMARK NOCHECK
+INFILE "00_houjin_bangou_zenken.csv" "VAR 10"
+INTO TABLE "HOUJIN_BANGOU"
+TRUNCATE REENABLE FIELDS TERMINATED BY ','
+TRAILING NULLCOLS
+(  "SEQUENCE_NUMBER"                    DECIMAL EXTERNAL(10)
+,  "CORPORATE_NUMBER"                   CHAR(13) ENCLOSED BY '"'
+,  "PROCESS"                            CHAR(2) ENCLOSED BY '"'
+,  "CORRECT"                            CHAR(1) ENCLOSED BY '"'
+,  "UPDATE_DATE"                        DATE(14) "YYYY-MM-DD" ENCLOSED BY '"'
+,  "CHANGE_DATE"                        DATE(14) "YYYY-MM-DD" ENCLOSED BY '"'
+,  "NAME"                               CHAR(600) ENCLOSED BY '"'
+,  "NAME_IMAGE_ID"                      CHAR(8) ENCLOSED BY '"'
+,  "KIND"                               CHAR(3) ENCLOSED BY '"'
+,  "PREFECTURE_NAME"                    CHAR(40) ENCLOSED BY '"'
+,  "CITY_NAME"                          CHAR(80) ENCLOSED BY '"'
+,  "STREET_NUMBER"                      CHAR(1200) ENCLOSED BY '"'
+,  "ADDRESS_IMAGE_ID"                   CHAR(8) ENCLOSED BY '"'
+,  "PREFECTURE_CODE"                    CHAR(2) ENCLOSED BY '"'
+,  "CITY_CODE"                          CHAR(3) ENCLOSED BY '"'
+,  "POST_CODE"                          CHAR(7) ENCLOSED BY '"'
+,  "ADDRESS_OUTSIDE"                    CHAR(1200) ENCLOSED BY '"'
+,  "ADDRESS_OUTSIDE_IMAGE_ID"           CHAR(8) ENCLOSED BY '"'
+,  "CLOSE_DATE"                         DATE(14) "YYYY-MM-DD" ENCLOSED BY '"'
+,  "CLOSE_CAUSE"                        CHAR(2) ENCLOSED BY '"'
+,  "SUCCESSOR_CORPORATE_NUMBER"         CHAR(13) ENCLOSED BY '"'
+,  "CHANGE_CAUSE"                       CHAR(2000) ENCLOSED BY '"'
+,  "ASSIGNMENT_DATE"                    DATE(14) "YYYY-MM-DD" ENCLOSED BY '"'
+,  "LATEST"                             CHAR(1) ENCLOSED BY '"'
+,  "EN_NAME"                            CHAR(300) ENCLOSED BY '"'
+,  "EN_PREFECTURE_NAME"                 CHAR(9) ENCLOSED BY '"'
+,  "EN_CITY_NAME"                       CHAR(600) ENCLOSED BY '"'
+,  "EN_ADDRESS_OUTSIDE"                 CHAR(600) ENCLOSED BY '"'
+,  "FURIGANA"                           CHAR(2000) ENCLOSED BY '"'
+)
