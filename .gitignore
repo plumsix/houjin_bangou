@@ -3,3 +3,9 @@
 *.csv
 *.zip
 *.asc
+adaptor.exe
+adaptor.ilk
+adaptor.obj
+adaptor.pdb
+temp.txt
+vc140.pdb

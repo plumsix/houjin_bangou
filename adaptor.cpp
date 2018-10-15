@@ -2,9 +2,11 @@
 ==========================================================================
 adapter.cpp : CSV format converter
 
-Insert n digits row-length fields at the each row-head 
-and add comma at the each row-tail.
-Used to load a string data that contains the "LF".
+Function:
+(1) Supplement missing enclosing characters to represent empty string data.
+(2) Get one output file with aggregated multiple input files.
+(3) Insert n digits row-length fields at the each row-head and add comma
+    at the each row-tail.  Used to load data with newline charactors.
 
 Usage:
 adaptor <src_file>...
@@ -14,22 +16,22 @@ nmake EXE="adaptor.exe" OBJS="adaptor.obj" CPPFLAGS="/nologo /EHsc /Zi /O2"
 --------------------------------------------------------------------------
 Copyright (c) 2018 PLUMSIX Co.,Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining 
-a copy of this software and associated documentation files (the "Software"), 
-to deal in the Software without restriction, including without limitation 
-the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom
 the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included 
+The above copyright notice and this permission notice shall be included
 in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ==========================================================================
 */
@@ -58,16 +60,17 @@ public:
 		, ofn(fn_dst, std::ios_base::app)
 		, iLines(0)
 	{}
-	void vConvert() 
+	void vConvert()
 	{
-		// 0 is an enclosing character unnecessary data type,
-		// 1 is a data type that requires an enclosing character.
+		// 0 represents an enclosing character unnecessary data type, and
+		// 1 represents a data type that requires an enclosing character.
 		static int iEnc[] =
-	    //0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
-		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	    //   position of column
+	    //   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+	       { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 		static char *szFmt[2] =
-			{ "%s"        // iEnc[0] ... number.
-			, "\"%s\""    // iEnc[1] ... varchar2, char, date.
+			{ R"(%s)"      // iEnc[0] ... number.
+			, R"("%s")"    // iEnc[1] ... varchar2, char, date.
 			};
 		static char szSrc[LEN_BUF];  // a buffer for the original data.
 		static char szDst[LEN_BUF];  // a buffer for the converted data.
@@ -77,7 +80,7 @@ public:
 			int32_t iCols = 0; // Current column position. Start from 0.
 			const std::streamsize iLen = ifs.gcount();
 			std::streamsize i = 0  // current index of szSrc
-				          , o = 0; // current index of szDst
+			              , o = 0; // current index of szDst
 			szDst[0] = {0};
 			while (i < iLen)
 			{
@@ -131,13 +134,17 @@ int main(int argc, char** argv)
 			<< std::endl;
 		return 1;
 	}
+	else
+	{
+		// To truncate destination file.
+		std::ofstream ofn(OUTPUT_FILE_NAME, std::ios_base::trunc);
+	}
 
 	int64_t iTotal = 0;
 	std::for_each(
 		&argv[1], &argv[argc]
 		, [&](const char *fn)
 		{
-			static std::ofstream ofn(OUTPUT_FILE_NAME, std::ios_base::trunc);
 			std::cout << fn << "... ";
 			cUnit oUnit(fn, OUTPUT_FILE_NAME);
 			oUnit.vConvert();
