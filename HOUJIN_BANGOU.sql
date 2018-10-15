@@ -48,7 +48,7 @@ ALTER TABLE HOUJIN_BANGOU ENABLE ROW MOVEMENT;
 /*
  * 更新可能なビューと INSTEAD OF ビュートリガー
  */
-drop table HOUJIN_BANGOU_VIEW;
+drop view HOUJIN_BANGOU_VIEW;
 create or replace view HOUJIN_BANGOU_VIEW as
 select * from HOUJIN_BANGOU
 with check option constraint HOUJIN_BANGOU_V
@@ -153,3 +153,4 @@ begin
 	end if;
 end;
 /
+exit

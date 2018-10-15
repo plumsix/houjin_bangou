@@ -3,6 +3,7 @@
 *.csv
 *.zip
 *.asc
+*.bad
 adaptor.exe
 adaptor.ilk
 adaptor.obj
