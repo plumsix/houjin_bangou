@@ -1,9 +1,7 @@
 # houjin_bangou
 
 ## What is this?
-A set of programs and parameter files necessary for the National Tax Administration Agency,  
-a Japanese government agency, to download data of "corporate number" released on a monthly basis  
-from the authority's site, apply processing, load it into the Oracle Database table is.
+A set of programs and parameter files necessary for the National Tax Administration Agency,  a Japanese government agency, to download data of "corporate number" released on a monthly basis  from the authority's site, apply processing, load it into the Oracle Database table is.
 
 ## What is the value of using this?
 It is free from manual work using the browser for downloading. 
