@@ -1,4 +1,4 @@
-# oujin_bangou
+# houjin_bangou
 
 ## What is this?
 A set of programs and parameter files necessary for the National Tax Administration Agency,  
@@ -13,10 +13,11 @@ Just repeat the seven commands, you will be able to get the latest corporate num
 
 ### Do it before you start using this.
 1. Prepare a Windows machine.
+1. Install Microsoft Visual Studio 2013 or later.
 1. Install the Firefox browser on it.
 1. Install Python 3 language processor.
-  * pip install --upgrade pip
-  * pip install selenium
+    * pip install --upgrade pip
+    * pip install selenium
 1. Install Mozilla GeckoDriver.
 1. Add place of python.exe and GeckoDriver into PATH variable.
 1. git clone https://github.com/plumsix/houjin_bangou.git
