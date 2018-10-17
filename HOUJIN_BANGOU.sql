@@ -57,11 +57,11 @@ create or replace trigger TRG_HOUJIN_BANGOU_INS
 instead of insert on HOUJIN_BANGOU_VIEW
 begin
 	update HOUJIN_BANGOU
-	set SEQUENCE_NUMBER = :new.SEQUENCE_NUMBER
-	  , CORPORATE_NUMBER = :new.CORPORATE_NUMBER
-	  , PROCESS = :new.PROCESS
+	--  SEQUENCE_NUMBER = :new.SEQUENCE_NUMBER    更新対象外
+	--  CORPORATE_NUMBER = :new.CORPORATE_NUMBER  更新対象外
+	set PROCESS = :new.PROCESS
 	  , CORRECT = :new.CORRECT
-	  , UPDATE_DATE = :new.UPDATE_DATE
+	--  UPDATE_DATE = :new.UPDATE_DATE            更新対象外
 	  , CHANGE_DATE = :new.CHANGE_DATE
 	  , NAME = :new.NAME
 	  , NAME_IMAGE_ID = :new.NAME_IMAGE_ID
@@ -87,6 +87,17 @@ begin
 	  , EN_ADDRESS_OUTSIDE = :new.EN_ADDRESS_OUTSIDE
 	  , FURIGANA = :new.FURIGANA
 	where CORPORATE_NUMBER = :new.CORPORATE_NUMBER
+	and CHANGE_DATE < :new.CHANGE_DATE-- 直近の更新以降に生じた差分
+	and :new.PROCESS in
+		( '11' -- 商号又は名称の変更
+		, '12' -- 国内所在地の変更
+		, '13' -- 国外所在地の変更
+		, '21' -- 登記記録の閉鎖等
+		, '22' -- 登記記録の復活等
+		, '71' -- 吸収合併
+		, '72' -- 吸収合併無効
+		, '81' -- 商号の登記の抹消
+		)
 	;
 	if sql%notfound then
 		insert into HOUJIN_BANGOU
@@ -119,8 +130,8 @@ begin
 		, EN_CITY_NAME
 		, EN_ADDRESS_OUTSIDE
 		, FURIGANA
-		) values
-		( :new.SEQUENCE_NUMBER
+		) select
+		  :new.SEQUENCE_NUMBER
 		, :new.CORPORATE_NUMBER
 		, :new.PROCESS
 		, :new.CORRECT
@@ -149,6 +160,11 @@ begin
 		, :new.EN_CITY_NAME
 		, :new.EN_ADDRESS_OUTSIDE
 		, :new.FURIGANA
+		from DUAL
+		where not exists ( -- 既存の法人番号がない
+			select null
+			from HOUJIN_BANGOU
+			where CORPORATE_NUMBER = :new.CORPORATE_NUMBER
 		);
 	end if;
 end;
