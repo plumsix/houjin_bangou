@@ -11,8 +11,8 @@ Just repeat the seven commands, you will be able to get the latest corporate num
 
 ### Do it before you start using this.
 1. Prepare a Windows machine.
-1. Install Microsoft Visual Studio 2013 or later.
 1. Install the Firefox browser on it.
+1. Install Microsoft Visual Studio 2013 or later.
 1. Install Python 3 language processor.
     * pip install --upgrade pip
     * pip install selenium
