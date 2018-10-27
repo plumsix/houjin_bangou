@@ -4,8 +4,8 @@
 A set of programs and parameter files necessary for the National Tax Administration Agency, a Japanese government agency, to download data of "corporate number" released on a monthly basis  from the authority's site, apply processing, load it into the Oracle Database table is.
 
 ## What is value of using this?
-You will be released from boring work. because this scrape the download site on your behalf.
-Just repeat the seven commands, you will be able to get the latest corporate number table on the DB.
+You will be released from boring work, because this scrape the download site on your behalf.  
+Just repeat the seven commands, you will be able to get the latest corporate number table on the DB.  
 
 ## Tell me how to use.
 
